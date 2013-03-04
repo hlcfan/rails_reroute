@@ -5,3 +5,7 @@ class AirTrafficController < ApplicationController
     reroute "status"
   end
 end
+
+You can add it to your project by adding this to your Gemfile
+
+gem 'rails_reroute', :require => 'rails_reroute'
