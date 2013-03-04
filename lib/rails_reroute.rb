@@ -1,7 +1,6 @@
 module RailsReroute
   class Railtie < Rails::Railtie
     initializer "rails_reroute.initializer" do
-      puts "DEAR FREAKING GOD"
       ActionController::Base.class_eval do
         def reroute new_route
           new_paths = {"PATH_INFO" => "#{new_route}", "REQUEST_URI"=>"#{env["rack.url_scheme"]}://#{env["HTTP_HOST"]}#{new_route}", "REQUEST_PATH"=>"#{new_route}"}
@@ -25,12 +24,6 @@ module RailsReroute
           end
         end
       end
-    end
-  end
-
-  class Blarg
-    def self.speak
-      puts "BLARG"
     end
   end
 end
