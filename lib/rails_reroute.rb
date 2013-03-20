@@ -3,10 +3,10 @@ module RailsReroute
     initializer "rails_reroute.initializer" do
       ActionController::Base.class_eval do
         def reroute new_route
-          new_env = reroute_new_env new_route
+          reroute_new_env new_route
           unlock_request
-          Rails.application.call(new_env)
-          @_response = new_env["action_controller.instance"].response
+          Rails.application.call(env)
+          @_response = env["action_controller.instance"].response
           @_response_body = @_response.body
         end
 
@@ -20,10 +20,9 @@ module RailsReroute
         end
 
         def reroute_new_env new_route
-          new_env = env.clone
           new_paths = {"PATH_INFO" => "#{new_route}", "REQUEST_URI"=>"#{env["rack.url_scheme"]}://#{env["HTTP_HOST"]}#{new_route}", "REQUEST_PATH"=>"#{new_route}"}
-          reroute_default_variables.each { |key| new_env[key] = env[key] }
-          new_env.merge new_paths
+          env.keys.each { |key| env.delete(key) if !reroute_default_variables.include?(key) and !key.include?("rack") }
+          env.merge! new_paths
         end
 
         def unlock_request
