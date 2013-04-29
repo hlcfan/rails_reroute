@@ -22,7 +22,8 @@ module RailsReroute
         end
 
         def reroute_new_env new_route
-          new_paths = {"PATH_INFO" => "#{new_route}", "REQUEST_URI"=>"#{env["rack.url_scheme"]}://#{env["HTTP_HOST"]}#{new_route}", "REQUEST_PATH"=>"#{new_route}"}
+          new_paths = {"PATH_INFO" => "#{new_route}", "REQUEST_URI"=>"#{env["rack.url_scheme"]}://#{env["HTTP_HOST"]}#{new_route}", "REQUEST_PATH"=>"#{new_route}", 
+                       "ORIGINAL_REQUEST_URI" => env["REQUEST_URI"]}
           env.keys.each { |key| env.delete(key) if !reroute_default_variables.include?(key) and !key.include?("rack") }
           env.merge! new_paths
         end
