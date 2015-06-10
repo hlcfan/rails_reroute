@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = "rails_reroute"
-  s.version = "0.2.4"
+  s.version = "0.2.5"
 
   s.authors     = ["Nathaniel Barnes"]
   s.email       = ["Nathaniel.R.Barnes@gmail.com"]
