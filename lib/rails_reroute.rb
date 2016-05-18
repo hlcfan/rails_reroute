@@ -20,7 +20,7 @@ module RailsReroute
             "ORIGINAL_REQUEST_URI" => env["REQUEST_URI"]
           }
 
-          env.keys.select! do |key|
+          env.select! do |key, value|
             DEFAULT_VARIABLES.include?(key) || key.include?("rack")
           end
 
