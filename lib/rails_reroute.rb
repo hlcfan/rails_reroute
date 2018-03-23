@@ -29,7 +29,13 @@ module RailsReroute
 
         def unlock_request
           unless Rails.application.config.allow_concurrency
-            Rack::Lock.new(Rails.application).call(env) rescue ThreadError
+            if Rails.application.config.action_controller.perform_caching
+              mutex = Rails.application.app.instance_variable_get("@backend").instance_variable_get("@mutex")
+            else
+              mutex = Rails.application.app.instance_variable_get("@app").instance_variable_get("@mutex")
+            end
+
+            mutex.unlock if mutex.locked?
           end
         end
       end
