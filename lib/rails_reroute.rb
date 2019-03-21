@@ -6,7 +6,6 @@ module RailsReroute
       ActionController::Base.class_eval do
         def reroute new_route
           reroute_new_env new_route
-          unlock_request
           Rails.application.call(env)
           @_response = env["action_controller.instance"].response
           @_response_body = @_response.body
@@ -25,12 +24,6 @@ module RailsReroute
           end
 
           env.merge! new_paths
-        end
-
-        def unlock_request
-          unless Rails.application.config.allow_concurrency
-            Rack::Lock.new(Rails.application).call(env) rescue ThreadError
-          end
         end
       end
     end
